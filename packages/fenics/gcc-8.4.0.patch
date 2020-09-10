@@ -1,0 +1,42 @@
+--- a/dolfin/geometry/IntersectionConstruction.cpp	2019-04-10 11:53:11.000000000 +0200
++++ b/dolfin/geometry/IntersectionConstruction.cpp	2020-09-07 17:42:50.732360694 +0200
+@@ -19,6 +19,7 @@
+ // Last changed: 2017-12-12
+ 
+ #include <iomanip>
++#include <algorithm>
+ #include <dolfin/mesh/MeshEntity.h>
+ #include "predicates.h"
+ #include "GeometryPredicates.h"
+--- a/dolfin/io/VTKWriter.cpp	2020-09-07 20:26:38.771561450 +0200
++++ b/dolfin/io/VTKWriter.cpp	2020-09-07 20:26:01.776564623 +0200
+@@ -24,7 +24,6 @@
+ #include <sstream>
+ #include <vector>
+ #include <iomanip>
+-#include <boost/detail/endian.hpp>
+ 
+ #include <dolfin/fem/GenericDofMap.h>
+ #include <dolfin/fem/FiniteElement.h>
+--- a/dolfin/io/VTKFile.cpp	2019-04-10 11:53:11.000000000 +0200
++++ b/dolfin/io/VTKFile.cpp	2020-09-07 20:26:21.942562893 +0200
+@@ -20,7 +20,6 @@
+ #include <vector>
+ #include <iomanip>
+ #include <boost/cstdint.hpp>
+-#include <boost/detail/endian.hpp>
+ 
+ #include "pugixml.hpp"
+ 
+--- a/dolfin/mesh/MeshFunction.h	2019-04-10 11:53:11.000000000 +0200
++++ b/dolfin/mesh/MeshFunction.h	2020-09-07 20:34:13.895530274 +0200
+@@ -24,6 +24,7 @@
+ #ifndef __MESH_FUNCTION_H
+ #define __MESH_FUNCTION_H
+ 
++#include <algorithm>
+ #include <map>
+ #include <vector>
+ 
+--- /home/richart/test/tmp/spack-stage-fenics-2019.1.0-uvjjspjt3hrbsk4jimrihgj7zpqnqjzq/spack-src/dolfin/io/VTKFile.cpp	2019-04-10 11:53:11.000000000 +0200
++++ /home/richart/test/tmp/spack-stage-fenics-2019.1.0-uvjjspjt3hrbsk4jimrihgj7zpqnqjzq/spack-src/dolfin/io/VTKFile.cpp.new	2020-09-07 21:26:13.787328355 +0200
