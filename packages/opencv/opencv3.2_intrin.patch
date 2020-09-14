@@ -1,0 +1,10 @@
+--- a/modules/core/include/opencv2/core/hal/intrin_sse.hpp	2020-09-14 14:53:46.396711573 +0200
++++ b/modules/core/include/opencv2/core/hal/intrin_sse.hpp	2020-09-14 14:53:21.463711258 +0200
+@@ -46,6 +46,7 @@
+ #define OPENCV_HAL_SSE_HPP
+ 
+ #include <algorithm>
++#include <immintrin.h>
+ #include "opencv2/core/utility.hpp"
+ 
+ #define CV_SIMD128 1
