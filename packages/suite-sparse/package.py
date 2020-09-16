@@ -95,7 +95,7 @@ class SuiteSparse(Package, CudaPackage):
             'LAPACK=%s' % spec['lapack'].libs.ld_flags,
         ]
 
-        if spec.satisfies('^cuda@11.0.0:') in spec:
+        if spec.satisfies('^cuda@11.0.0:'):
             filter_file(r'(?ms)-gencode=arch=compute_30,code=sm_30 \\$\s*',
                         r'',
                         'SuiteSparse_config/SuiteSparse_config.mk')
