@@ -438,9 +438,12 @@ class Petsc(Package):
             options.append('--with-spai=0')
 
         if 'cuda' in spec:
-            options.append(
-                '--CUDAFLAGS=-ccbin %s -Xcompiler=-Wno-cpp' % os.environ['CC'],
-            )
+            options.extend([
+                '--with-cudac={0}'.format(join_path(spec['cuda'].prefix.bin, 'nvcc')),
+                '--CUDAFLAGS=-ccbin {0} -std=c++14 -Xcompiler={1}'.format(
+                    os.environ['CC'],
+                    '-wd1224' if spec.compiler.name == 'intel' else '-Wno-cpp'),
+            ])
             if not '+debug' in spec:
                 options.append('CUDAOPTFLAGS=--optimize=2')
             else:
@@ -453,9 +456,10 @@ class Petsc(Package):
         make("install")
 
         if '+cuda' in spec:
-            filter_file(r'(#include <../src/vec/vec/impls/seq/seqcuda/cudavecimpl.h>)',
-                        r'#include <cuda_runtime_api.h>\n#include <cuda.h>',
-                        join_path(spec.prefix.include, 'petsc', 'private', 'sfimpl.h'))
+            filter_file('(#include <../src/vec/vec/impls/seq/seqcuda/cudavecimpl.h>)',
+                        '#include <cuda_runtime_api.h>\n#include <cuda.h>',
+                        join_path(spec.prefix.include, 'petsc', 'private', 'sfimpl.h'),
+                        string=True)
 
         # solve Poisson equation in 2D to make sure nothing is broken:
         if ('mpi' in spec) and self.run_tests:
