@@ -53,7 +53,7 @@ class Vasp(Package, CudaPackage):
             cuda_arch = [x for x in spec.variants['cuda_arch'].value if x]
             args['CUDA_ROOT'] = spec['cuda'].prefix
             args['NVCC'] = '$(CUDA_ROOT)/bin/nvcc --ccbin={0}'.format(
-                os.environ['CC']
+                os.environ['CXX']
             )
 
         for arg in args:
