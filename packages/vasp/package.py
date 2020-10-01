@@ -49,11 +49,16 @@ class Vasp(Package, CudaPackage):
             'CXX_PARS':  os.environ['CXX'],
         }
 
+        _extra_nvcc_options = ''
+        if self.compiler.name == 'intel':
+            _extra_nvcc_options = '  -gxx-name=/usr/bin/g++'
+
         if '+cuda' in spec:
             cuda_arch = [x for x in spec.variants['cuda_arch'].value if x]
             args['CUDA_ROOT'] = spec['cuda'].prefix
-            args['NVCC'] = '$(CUDA_ROOT)/bin/nvcc -ccbin={0}'.format(
-                os.environ['CXX']
+            args['NVCC'] = '$(CUDA_ROOT)/bin/nvcc -ccbin={0}{1}'.format(
+                os.environ['CXX'],
+                _extra_nvcc_options,
             )
 
         for arg in args:
