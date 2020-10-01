@@ -108,6 +108,8 @@ class Amber(Package, CudaPackage):
     # (http://archive.ambermd.org/201908/0105.html)
     depends_on('mpi', when='+mpi')
 
+    depends_on('boost')
+    
     # Cuda dependencies
     depends_on('cuda@:10.2.89', when='@18:+cuda')
     depends_on('cuda@7.5.18', when='@:16+cuda')
@@ -122,6 +124,8 @@ class Amber(Package, CudaPackage):
     conflicts('+openmp', when='%pgi',
               msg='OpenMP not available for the pgi compiler')
 
+    patch('cuda9.patch', when='^cuda@9:')
+    
     def setup_build_environment(self, env):
         amber_src = self.stage.source_path
         env.set('AMBERHOME', amber_src)

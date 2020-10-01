@@ -36,21 +36,25 @@ class Vasp(Package, CudaPackage):
             'intel' if spec.compiler.name == 'intel' else 'gnu'))
         shutil.copy(arch_file, 'makefile.include')
 
-        filter_file(r'mpif90',
-                    spec['mpi'].mpifc,
-                    'makefile.include')
-
         args = {
             'BLAS': spec['blas'].libs.ld_flags,
             'LAPACK': spec['lapack'].libs.ld_flags,
             'SCALAPACK': spec['scalapack'].libs.ld_flags,
             'FFTW': spec['fftw-api'].libs.directories,
             'MPI_INC': spec['mpi'].prefix.include,
+            'FC': spec['mpi'].mpifc,
+            'CC': os.environ['CC'],
+            'CC_LIB': os.environ['CC'],
+            'CXX':  os.environ['CXX'],
+            'CXX_PARS':  os.environ['CXX'],
         }
 
         if '+cuda' in spec:
             cuda_arch = [x for x in spec.variants['cuda_arch'].value if x]
             args['CUDA_ROOT'] = spec['cuda'].prefix
+            args['NVCC'] = '$(CUDA_ROOT)/bin/nvcc --ccbin={0}'.format(
+                os.environ['CC']
+            )
 
         for arg in args:
             filter_file(r'(?ms)(^{0}\s*[?:+]?=).*?(?<! \\)$'.format(arg),
