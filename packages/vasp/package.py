@@ -51,7 +51,7 @@ class Vasp(Package, CudaPackage):
 
         _extra_nvcc_options = ''
         if self.compiler.name == 'intel':
-            _extra_nvcc_options = '  -gxx-name=/usr/bin/g++'
+            _extra_nvcc_options = ' -Xcompiler -gxx-name=/usr/bin/g++'
 
         if '+cuda' in spec:
             cuda_arch = [x for x in spec.variants['cuda_arch'].value if x]
