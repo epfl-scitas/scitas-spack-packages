@@ -1,4 +1,4 @@
-# Copyright 2013-2020 Lawrence Livermore National Security, LLC and other
+# Copyright 2013-2019 Lawrence Livermore National Security, LLC and other
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
@@ -17,8 +17,6 @@ class Fenics(CMakePackage):
     homepage = "http://fenicsproject.org/"
     url      = "https://bitbucket.org/fenics-project/dolfin/downloads/dolfin-1.6.0.tar.gz"
     base_url = "https://bitbucket.org/fenics-project/{pkg}/downloads/{pkg}-{version}.tar.gz"
-
-    python_components = ['ufl', 'ffc', 'fiat', 'instant']
 
     variant('hdf5',         default=True,  description='Compile with HDF5')
     variant('parmetis',     default=True,  description='Compile with ParMETIS')
@@ -48,7 +46,10 @@ class Fenics(CMakePackage):
 
     patch('petsc-3.7.patch', when='@1.6.1^petsc@3.7:')
     patch('petsc-version-detection.patch', when='@:1.6.1')
-    patch('hdf5~cxx-detection.patch')
+    patch('hdf5~cxx-detection.patch', when='@:2016.1.0')
+    patch('petsc-3.11.patch', when='@2019.1.0^petsc@3.11.0:')
+    patch('std-boost-includes.patch', when='%gcc@8.4.0:',
+          sha256='a5d5c90b2f977273c34377a15d1ae2608232a34ee41e0a102eea0abc7a8ad405')
 
     extends('python')
 
@@ -69,9 +70,6 @@ class Fenics(CMakePackage):
     depends_on('suite-sparse', when='+suite-sparse')
     depends_on('qt', when='+qt')
 
-    depends_on('py-petsc4py', when='+petsc+python')
-    depends_on('py-slepc4py', when='+slepc+python')
-    
     depends_on('py-ply', type=('build', 'run'))
     depends_on('py-six', type=('build', 'run'))
     depends_on('py-numpy', type=('build', 'run'))
@@ -79,48 +77,69 @@ class Fenics(CMakePackage):
     depends_on('swig@3.0.3:', type=('build', 'run'))
     depends_on('cmake@2.8.12:', type='build')
 
+    depends_on('py-petsc4py', when='+petsc', type=('build', 'run'))
+    depends_on('py-slepc4py', when='+slepc', type=('build', 'run'))
+
     depends_on('py-setuptools', type='build')
     depends_on('py-sphinx@1.0.1:', when='+doc', type='build')
 
-    releases = [
-        {
-            'version': '2016.1.0',
-            'sha256': '6228b4d641829a4cd32141bfcd217a1596a27d5969aa00ee64ebba2b1c0fb148',
+    releases = {
+        '2019.1.0': {
+            'md5': '789b46afd03c777f66f44ff26c714f1f',
             'resources': {
-                'ffc': '52430ce4c7d57ce1b81eb5fb304992247c944bc6a6054c8b6f42bac81702578d',
-                'fiat': '851723126a71bc1ae2dc4ad6e9330bd9b54d52db390dcbbc1f3c759fb49c6aeb',
-                'instant': '7bf03c8a7b61fd1e432b8f3a0405410ae68892ebb1a62a9f8118e8846bbeb0c6',
-                'ufl': '8dccfe10d1251ba48a4d43a4c6c89abe076390223b500f4baf06f696294b8dd0',
+                'fiat': 'c8b7b0fc70adad0ef9338d2c487337c9',
+                'ufl': 'fd14f186fce0caf2a9183f169331e6ee',
+                'dijitso': 'e66414b8a07e0a748aa6e725d70b0ce4',
+                'ffc': '53f7af75dab2da5a1f1bf0cfea982310',
             }
         },
-        {
-            'version': '1.6.0',
-            'sha256': '67eaac5fece6e71da0559b4ca8423156f9e99a952f0620adae449ebebb6695d1',
+        '2016.1.0': {
+            'md5': '92e8d00f6487a575987201f0b0d19173',
             'resources': {
-                'ffc': '382e7713fe759694e5f07506b144eeead681e169e5a34c164ef3da30eddcc1c6',
-                'fiat': '858ea3e936ad3b3558b474ffccae8a7b9dddbaafeac77e307115b23753cb1cac',
-                'instant': '2347e0229531969095911fdb1de30bd77bdd7f81521ba84d81b1b4a564fc906c',
-                'ufl': 'c75c4781e5104504f158cb42cd87aceffa9052e8e9db6e9764e6a5b6115d7f73',
+                'ffc': '35457ae164e481ba5c9189ebae060a47',
+                'fiat': 'ac0c49942831ee434301228842bcc280',
+                'instant': '0e3dbb464c4d90d691f31f0fdd63d4f6',
+                'ufl': '37433336e5c9b58d1d5ab4acca9104a7',
             }
         },
-    ]
+        '1.6.0': {
+            'md5': '35cb4baf7ab4152a40fb7310b34d5800',
+            'resources': {
+                'ffc': '358faa3e9da62a1b1a717070217b793e',
+                'fiat': 'f4509d05c911fd93cea8d288a78a6c6f',
+                'instant': '5f2522eb032a5bebbad6597b6fe0732a',
+                'ufl': 'c40c5f04eaa847377ab2323122284016',
+            }
+        },
+        '1.5.0': {
+            'md5': '9b589a3534299a5e6d22c13c5eb30bb8',
+            'resources': {
+                'ffc': '343f6d30e7e77d329a400fd8e73e0b63',
+                'fiat': 'da3fa4dd8177bb251e7f68ec9c7cf6c5',
+                'instant': 'b744023ded27ee9df4a8d8c6698c0d58',
+                'ufl': '130d7829cf5a4bd5b52bf6d0955116fd',
+            }
+        },
+    }
 
-    for release in releases:
-        version(release['version'], release['sha256'], url=base_url.format(
-            pkg='dolfin', version=release['version']))
-        for rname, sha256 in release['resources'].items():
-            resource(name=rname,
-                     url=base_url.format(pkg=rname, **release),
-                     sha256=sha256,
+    for v, release in releases.items():
+        version(v, release['md5'], url=base_url.format(
+            pkg='dolfin', version=v))
+        for name, md5 in release['resources'].items():
+            resource(name=name,
+                     url=base_url.format(pkg=name,
+                                         version=v,
+                                         **release),
+                     md5=md5,
                      destination='depends',
-                     when='@{version}'.format(**release),
-                     placement=rname)
+                     when='@{0}'.format(v),
+                     placement=name)
 
     def cmake_is_on(self, option):
-        return 'ON' if self.spec.satisfies(option) else 'OFF'
+        return 'ON' if option in self.spec else 'OFF'
 
     def cmake_args(self):
-        args = [
+        return [
             '-DDOLFIN_ENABLE_DOCS:BOOL={0}'.format(
                 self.cmake_is_on('+doc')),
             '-DBUILD_SHARED_LIBS:BOOL={0}'.format(
@@ -133,17 +152,16 @@ class Fenics(CMakePackage):
             '-DDOLFIN_ENABLE_HDF5:BOOL={0}'.format(
                 self.cmake_is_on('+hdf5')),
             '-DDOLFIN_ENABLE_MPI:BOOL={0}'.format(
-                self.cmake_is_on('mpi')),
+                self.cmake_is_on('+mpi')),
             '-DDOLFIN_ENABLE_PARMETIS:BOOL={0}'.format(
                 self.cmake_is_on('+parmetis')),
             '-DDOLFIN_ENABLE_PASTIX:BOOL={0}'.format(
-                self.cmake_is_on('pastix')),
+                self.cmake_is_on('+pastix')),
             '-DDOLFIN_ENABLE_PETSC:BOOL={0}'.format(
                 self.cmake_is_on('+petsc')),
             '-DDOLFIN_ENABLE_PETSC4PY:BOOL={0}'.format(
-                self.cmake_is_on('+python+petsc')),
-            '-DDOLFIN_ENABLE_PYTHON:BOOL={0}'.format(
-                self.cmake_is_on('+python')),
+                self.cmake_is_on('+petsc')),
+            '-DDOLFIN_ENABLE_PYTHON:BOOL=ON',
             '-DDOLFIN_ENABLE_QT:BOOL={0}'.format(
                 self.cmake_is_on('+qt')),
             '-DDOLFIN_ENABLE_SCOTCH:BOOL={0}'.format(
@@ -151,9 +169,9 @@ class Fenics(CMakePackage):
             '-DDOLFIN_ENABLE_SLEPC:BOOL={0}'.format(
                 self.cmake_is_on('+slepc')),
             '-DDOLFIN_ENABLE_SLEPC4PY:BOOL={0}'.format(
-                self.cmake_is_on('+python+slepcy')),
+                self.cmake_is_on('+slepc')),
             '-DDOLFIN_ENABLE_SPHINX:BOOL={0}'.format(
-                self.cmake_is_on('py-sphinx')),
+                self.cmake_is_on('+doc')),
             '-DDOLFIN_ENABLE_TRILINOS:BOOL={0}'.format(
                 self.cmake_is_on('+trilinos')),
             '-DDOLFIN_ENABLE_UMFPACK:BOOL={0}'.format(
@@ -164,19 +182,10 @@ class Fenics(CMakePackage):
                 self.cmake_is_on('zlib')),
         ]
 
-        if self.spec.satisfies('+python'):
-            args.append('-DPY_PLY_path:FILPATH={0}'.format(self.spec['py-ply'].prefix))
-
-        return args
-    
-    @run_after('build')
+    @run_before('cmake')
     def build_python_components(self):
-        for package in self.python_components:
+        str_version = str(self.spec.version)
+        for package in self.releases[str_version]['resources'].keys():
             with working_dir(join_path('depends', package)):
                 setup_py('build')
-
-    @run_after('install')
-    def install_python_components(self):
-        for package in self.python_components:
-            with working_dir(join_path('depends', package)):
                 setup_py('install', '--prefix={0}'.format(self.prefix))
