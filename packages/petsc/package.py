@@ -251,6 +251,13 @@ class Petsc(Package):
     depends_on('saws', when='+saws')
     depends_on('libyaml', when='+libyaml')
 
+    resource(name='spai',
+             expand=False,
+             url='https://www.mcs.anl.gov/petsc/mirror/externalpackages/spai-3.0-p1.tar.gz',
+             version='3.0-p1',
+             sha256='089cd5b343f42ad3ab523e1a8d26d19e0fd3399f227c8376e2d5aa99a96bca8e',
+             when='+spai')
+
     def url_for_version(self, version):
         if version >= Version('3.13.0'):
             # petsc-lite tarballs are smaller by skipping docs
