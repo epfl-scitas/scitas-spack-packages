@@ -101,7 +101,7 @@ class Opencv(CMakePackage, CudaPackage):
     variant('zlib', default=True, description='Build zlib from source')
 
     variant('contrib', default=False, description='Adds in code from opencv_contrib.')
-    contrib_vers = ['4.1.0', '4.1.1', '4.2.0']
+    contrib_vers = ['3.2.0', '4.1.0', '4.1.1', '4.2.0']
     for cv in contrib_vers:
         resource(name="contrib",
                  git='https://github.com/opencv/opencv_contrib.git',
@@ -116,7 +116,7 @@ class Opencv(CMakePackage, CudaPackage):
     depends_on('hdf5', when='+cuda')
     depends_on('blas', when='+lapack')
 
-    # Patch to fix conflict between CUDA and OpenCV (reproduced with 3.3.0
+    # Patch to fix conflict between CUDA and OpenCV (reproduced with 2.3.0
     # and 3.4.1) header file that have the same name.Problem is fixed in
     # the current development branch of OpenCV. See #8461 for more information.
     patch('dnn_cuda.patch', when='@3.3.0:3.4.1+cuda+dnn')
@@ -130,7 +130,10 @@ class Opencv(CMakePackage, CudaPackage):
     patch('opencv3.2_ffmpeg.patch', when='@3.2+videoio')
     patch('opencv3.2_python3.7.patch', when='@3.2+python')
     patch('opencv3.2_fj.patch', when='@3.2 %fj')
-    
+    patch('opencv3.2_cuda9.patch', when='@3.2 ^cuda@9:',
+          sha256='09e722a24629c10dce0b81ea38c2314b11f9018cbc53f35fa8887071065343aa')
+    patch('opencv3.2_intrin.patch', when='@3.2 %gcc')
+
     depends_on('eigen', when='+eigen')
     depends_on('zlib', when='+zlib')
     depends_on('libpng', when='+png')
@@ -264,6 +267,8 @@ class Opencv(CMakePackage, CudaPackage):
             if spec.variants['cuda_arch'].value[0] != 'none':
                 cuda_arch = [x for x in spec.variants['cuda_arch'].value if x]
                 args.append('-DCUDA_ARCH_BIN={0}'.format(
+                    ' '.join(cuda_arch)))
+                args.append('-DCUDA_ARCH_PTX={0}'.format(
                     ' '.join(cuda_arch)))
 
         # Media I/O

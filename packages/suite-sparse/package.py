@@ -53,8 +53,6 @@ class SuiteSparse(Package, CudaPackage):
    
     conflicts('%gcc@:4.8', when='@5.2.0:', msg='gcc version must be at least 4.9 for suite-sparse@5.2.0:')
 
-    patch('cuda_arch.patch', when='+cuda')
-    conflicts('cuda_arch=none', when='+cuda', msg='Must specify CUDA compute capabilities of your GPU, see https://developer.nvidia.com/cuda-gpus')
     
     def install(self, spec, prefix):
         # The build system of SuiteSparse is quite old-fashioned.
@@ -97,12 +95,10 @@ class SuiteSparse(Package, CudaPackage):
             'LAPACK=%s' % spec['lapack'].libs.ld_flags,
         ]
 
-        if '+cuda' in spec:
-            cuda_arch = [x for x in spec.variants['cuda_arch'].value if x]
-            if cuda_arch:
-                make_args.append(
-                    'NVCCFLAGS = -Xcompiler -fPIC -O3 {}'.format(
-                        ' '.join(self.cuda_flags(cuda_arch))))
+        if spec.satisfies('^cuda@11.0.0:'):
+            filter_file(r'(?ms)-gencode=arch=compute_30,code=sm_30 \\$\s*',
+                        r'',
+                        'SuiteSparse_config/SuiteSparse_config.mk')
 
         # Recent versions require c11 but some demos do not get the c11 from
         # GraphBLAS/CMakeLists.txt, for example the file
