@@ -88,7 +88,7 @@ class Fenics(CMakePackage):
             'md5': '789b46afd03c777f66f44ff26c714f1f',
             'resources': {
                 'fiat': 'c8b7b0fc70adad0ef9338d2c487337c9',
-                'ufl': 'fd14f186fce0caf2a9183f169331e6ee',
+                'ufl': '789b46afd03c777f66f44ff26c714f1f',
                 'dijitso': 'e66414b8a07e0a748aa6e725d70b0ce4',
                 'ffc': '53f7af75dab2da5a1f1bf0cfea982310',
             }
