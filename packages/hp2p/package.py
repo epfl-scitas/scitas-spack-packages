@@ -21,6 +21,7 @@ class Hp2p(AutotoolsPackage):
             description='Add dependencies to be able to postprocess the results')
 
     depends_on('automake', type=['build'])
+    depends_on('autoconf', type=['build'])
     depends_on('libtool', type=['build'])
     depends_on('mpi')
     depends_on('python@2:2.99', type=['run'], when='vizualisation')
