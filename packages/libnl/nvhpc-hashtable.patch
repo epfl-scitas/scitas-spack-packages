@@ -1,0 +1,11 @@
+--- a/lib/hashtable.c	2020-11-09 20:56:18.927289614 +0100
++++ b/lib/hashtable.c	2020-11-09 21:10:53.817274217 +0100
+@@ -191,7 +191,7 @@
+ 
+ uint32_t nl_hash(void *k, size_t length, uint32_t initval)
+ {
+-	return(__nl_hash(k, length, initval));
++	return(nl_hash_any(k, length, initval));
+ }
+ 
+ /** @} */

@@ -1,0 +1,14 @@
+--- a/Makefile.in	2020-11-09 19:26:19.884389433 +0100
++++ b/Makefile.in	2020-11-09 19:26:34.654389104 +0100
+@@ -1350,11 +1350,6 @@
+ 	$(am__append_10)
+ warn_cppflags = \
+ 	-Wall \
+-	-Wextra \
+-	-Wmissing-prototypes \
+-	-Wno-unused-parameter \
+-	-Wno-sign-compare \
+-	-Wno-missing-field-initializers \
+ 	$(NULL)
+ 
+ 

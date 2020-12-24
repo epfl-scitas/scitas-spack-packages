@@ -1,0 +1,56 @@
+--- a/configure	2019-11-23 14:59:04.000000000 +0100
++++ b/configure	2020-11-10 09:52:29.811558371 +0100
+@@ -9551,7 +9551,7 @@
+ 	lt_prog_compiler_pic='-fPIC'
+ 	lt_prog_compiler_static='-static'
+ 	;;
+-      pgcc* | pgf77* | pgf90* | pgf95* | pgfortran*)
++      pgcc* | pgf77* | pgf90* | pgf95* | pgfortran* | nvc | nvfortran*)
+         # Portland Group compilers (*not* the Pentium gcc compiler,
+ 	# which looks to be a dead project)
+ 	lt_prog_compiler_wl='-Wl,'
+@@ -9593,7 +9593,7 @@
+ 	  lt_prog_compiler_pic='-fPIC'
+ 	  lt_prog_compiler_static='-static'
+ 	  ;;
+-	*Portland\ Group*)
++  *Portland\ Group* | *NVIDIA\ Compilers* | *PGI\ Compilers*)
+ 	  lt_prog_compiler_wl='-Wl,'
+ 	  lt_prog_compiler_pic='-fpic'
+ 	  lt_prog_compiler_static='-Bstatic'
+@@ -10190,11 +10190,11 @@
+ 	tmp_addflag=' $pic_flag'
+ 	tmp_sharedflag='-shared'
+ 	case $cc_basename,$host_cpu in
+-        pgcc*)				# Portland Group C compiler
++        pgcc* | nvc)				# Portland Group C compiler
+ 	  whole_archive_flag_spec='$wl--whole-archive`for conv in $convenience\"\"; do test  -n \"$conv\" && new_convenience=\"$new_convenience,$conv\"; done; func_echo_all \"$new_convenience\"` $wl--no-whole-archive'
+ 	  tmp_addflag=' $pic_flag'
+ 	  ;;
+-	pgf77* | pgf90* | pgf95* | pgfortran*)
++	pgf77* | pgf90* | pgf95* | pgfortran* | nvfortran*)
+ 					# Portland Group f77 and f90 compilers
+ 	  whole_archive_flag_spec='$wl--whole-archive`for conv in $convenience\"\"; do test  -n \"$conv\" && new_convenience=\"$new_convenience,$conv\"; done; func_echo_all \"$new_convenience\"` $wl--no-whole-archive'
+ 	  tmp_addflag=' $pic_flag -Mnomain' ;;
+@@ -14131,10 +14131,10 @@
+ 	    export_dynamic_flag_spec_CXX='$wl--export-dynamic'
+ 	    whole_archive_flag_spec_CXX='$wl--whole-archive$convenience $wl--no-whole-archive'
+ 	    ;;
+-          pgCC* | pgcpp*)
++          pgCC* | pgcpp* | nvc++*)
+             # Portland Group C++ compiler
+ 	    case `$CC -V` in
+-	    *pgCC\ [1-5].* | *pgcpp\ [1-5].*)
++	    *pgCC\ [1-5].* | *pgcpp\ [1-5].* | *nvc++\ 20.*)
+ 	      prelink_cmds_CXX='tpldir=Template.dir~
+                rm -rf $tpldir~
+                $CC --prelink_objects --instantiation_dir $tpldir $objs $libobjs $compile_deplibs~
+@@ -14915,7 +14915,7 @@
+ 	    lt_prog_compiler_pic_CXX='-fPIC'
+ 	    lt_prog_compiler_static_CXX='-static'
+ 	    ;;
+-	  pgCC* | pgcpp*)
++	  pgCC* | pgcpp* | nvc++*)
+ 	    # Portland Group C++ compiler
+ 	    lt_prog_compiler_wl_CXX='-Wl,'
+ 	    lt_prog_compiler_pic_CXX='-fpic'
