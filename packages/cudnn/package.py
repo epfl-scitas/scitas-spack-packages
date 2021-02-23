@@ -149,6 +149,7 @@ class Cudnn(Package):
 
     # CUDA 11.0
     depends_on('cuda@11.0.2:11.0.999', when='@8.0.2.39-11.0-linux-x64')
+    depends_on('cuda@10.2.0:10.2.999', when='@8.0.2.39-10.2-linux-x64')
     
     # CUDA 10.2
     depends_on('cuda@10.2.0:10.2.999', when='@7.6.5.32-10.2-linux-x64')
