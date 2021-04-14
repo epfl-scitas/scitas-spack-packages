@@ -103,6 +103,10 @@ class Cudnn(Package):
     version('7.6.3.30-10.1-linux-ppc64le',
             sha256='f274735a8fc31923d3623b1c3d2b1d0d35bb176687077c6a4d4353c6b900d8ee')
 
+    # cuDNN 7.6.0
+    version('7.6.0.64-10.0-linux-x64',
+            sha256='c4e1ee4168f4cadabaa989487a47bed09f34d34e35398b6084a2699d11bd2560')
+
     # cuDNN 7.5.1
     version('7.5.1.10-10.1-linux-x64',
             sha256='2c833f43c9147d9a25a20947a4c5a5f5c33b2443240fd767f63b330c482e68e0')
@@ -177,6 +181,7 @@ class Cudnn(Package):
     depends_on('cuda@10.0.0:10.0.999', when='@7.6.5.32-10.0-linux-ppc64le')
     depends_on('cuda@10.0.0:10.0.999', when='@7.6.4.38-10.0-osx-x64')
     depends_on('cuda@10.0.0:10.0.999', when='@7.6.4.38-10.0-linux-x64')
+    depends_on('cuda@10.0.0:10.0.999', when='@7.6.0.64-10.0-linux-x64')
     depends_on('cuda@10.0.0:10.0.999', when='@7.6.4.38-10.0-linux-ppc64le')
     depends_on('cuda@10.0.0:10.0.999', when='@7.5.1.10-10.0-linux-x64')
     depends_on('cuda@10.0.0:10.0.999', when='@7.5.1.10-10.0-linux-ppc64le')
