@@ -17,4 +17,5 @@ class PySpython(PythonPackage):
 
     #depends_on('python@2.X:2.Y,3.Z:', type=('build', 'run'))
     depends_on('py-setuptools', type='build')
+    depends_on('py-semver@2.8.0:', type='run')
     depends_on('singularity@3.5.2:', type=('build', 'run'))
