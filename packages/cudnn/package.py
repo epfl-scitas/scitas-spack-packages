@@ -22,6 +22,17 @@ class Cudnn(Package):
 
     maintainers = ['adamjstewart']
 
+
+    # cuDNN 8.1.1
+    version('8.1.1.33-11.2-linux-x64',
+            sha256='98a8784e92862f20018d20c281b30d4a0cd951f93694f6433ccf4ae9c502ba6a')
+
+    # cuDNN 8.0.5
+    version('8.0.5.39-11.1-linux-x64',
+            sha256='1d046bfa79399dabcc6f6cb1507918754439442ea0ca9e0fbecdd446f9b00cce')
+    version('8.0.5.39-11.0-linux-x64',
+            sha256='4e16ee7895deb4a8b1c194b812ba49586ef7d26902051401d3717511898a9b73')
+
     # cuDNN 8.0.2
     version('8.0.2.39-11.0-linux-x64',
             sha256='672f46288b8edd98f8d156a4f1ff518201ca6de0cff67915ceaa37f6d6d86345')
@@ -155,6 +166,13 @@ class Cudnn(Package):
     # cuDNN 5.1
     version('5.1-8.0-linux-x64',
             sha256='c10719b36f2dd6e9ddc63e3189affaa1a94d7d027e63b71c3f64d449ab0645ce')
+
+
+    # CUDA 11.2
+    depends_on('cuda@11.2.0:11.2.999', when='@8.1.1.33-11.2-linux-x64')
+
+    # CUDA 11.1
+    depends_on('cuda@11.1.0:11.1.999', when='@8.0.5.39-11.1-linux-x64')
 
     # CUDA 11.0
     depends_on('cuda@11.0.2:11.0.999', when='@8.0.2.39-11.0-linux-x64')
