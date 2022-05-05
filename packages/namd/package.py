@@ -29,7 +29,7 @@ class Namd(MakefilePackage):
     variant('interface', default='none', values=('none', 'tcl', 'python'),
             description='Enables TCL and/or python interface')
 
-    depends_on('charmpp@6.10.1:', when="@2.14:")
+    depends_on('charmpp@6.10.1:6.10.99', when="@2.14")
     depends_on('charmpp@6.8.2', when="@2.13")
     depends_on('charmpp@6.7.1', when="@2.12")
 
