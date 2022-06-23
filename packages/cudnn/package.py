@@ -22,7 +22,10 @@ class Cudnn(Package):
 
     maintainers = ['adamjstewart']
 
-
+    # cuDNN 8.4.1
+    version('8.4.1.50-11.6-linux-x64',
+            sha256='ec96d2376d81fca42bdd3d4c3d705a99b29a065bab57f920561c763e29c67d01')
+    
     # cuDNN 8.1.1
     version('8.1.1.33-11.2-linux-x64',
             sha256='98a8784e92862f20018d20c281b30d4a0cd951f93694f6433ccf4ae9c502ba6a')
@@ -167,6 +170,8 @@ class Cudnn(Package):
     version('5.1-8.0-linux-x64',
             sha256='c10719b36f2dd6e9ddc63e3189affaa1a94d7d027e63b71c3f64d449ab0645ce')
 
+    # CUDA 11.x
+    depends_on('cuda@11.0:11.999', when='@8.4.1.50-11.6-linux-x64')
 
     # CUDA 11.2
     depends_on('cuda@11.2.0:11.2.999', when='@8.1.1.33-11.2-linux-x64')
@@ -230,6 +235,16 @@ class Cudnn(Package):
     def url_for_version(self, version):
         url = 'https://developer.download.nvidia.com/compute/redist/cudnn/v{0}/cudnn-{1}-v{2}.tgz'
 
+        # SCITAS: Layout change for version >= 8.3.1
+        # inspired from spack-v0.18 package.py
+        if version >= Version('8.4'):
+            url = 'https://developer.download.nvidia.com/compute/redist/cudnn/v{0}/cudnn-{1}-{2}_cuda{3}-archive.tar.xz'
+            directory = version[:3]
+            ver = version[:4]
+            cuda = version[4:6]
+            directory = '{0}/local_installers/{1}'.format(directory, cuda)
+            sys_key = 'linux-x86_64'
+            return url.format(directory, sys_key, ver, cuda)
         if version >= Version('7.2'):
             directory = version[:3]
             ver = version[:4]
