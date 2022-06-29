@@ -170,8 +170,8 @@ class Cudnn(Package):
     version('5.1-8.0-linux-x64',
             sha256='c10719b36f2dd6e9ddc63e3189affaa1a94d7d027e63b71c3f64d449ab0645ce')
 
-    # CUDA 11.x
-    depends_on('cuda@11.0:11.999', when='@8.4.1.50-11.6-linux-x64')
+    # CUDA 11.6
+    depends_on('cuda@11.6.0:11.999', when='@8.4.1.50-11.6-linux-x64')
 
     # CUDA 11.2
     depends_on('cuda@11.2.0:11.2.999', when='@8.1.1.33-11.2-linux-x64')
