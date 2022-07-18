@@ -23,6 +23,10 @@ import llnl.util.tty as tty
 #    format returned by platform.system() and 'arch' by platform.machine()
 
 _versions = {
+    '11.6.2': {
+        'Linux-aarch64': ('b20c014c6bba36b13c50da167ad42e9bd1cea24f3b6297b495ea129c0889f36e', 'https://developer.download.nvidia.com/compute/cuda/11.6.2/local_installers/cuda_11.6.2_510.47.03_linux_sbsa.run'),
+        'Linux-x86_64': ('99b7a73dcc52a52cef4c1fceb4a60c3015ac9b6404082c1677d9efdaba1d4593', 'https://developer.download.nvidia.com/compute/cuda/11.6.2/local_installers/cuda_11.6.2_510.47.03_linux.run'),
+        'Linux-ppc64le': ('869232ff8dbf295a71609738ac9e1b0079ca75597b427f1c026f42b36896afe8', 'https://developer.download.nvidia.com/compute/cuda/11.6.2/local_installers/cuda_11.6.2_510.47.03_linux_ppc64le.run')},
     '11.4.0': {
         'Linux-aarch64': ('f0c8e80d98a601ddca031b6764459984366008c7d3847e7c7f99b36bd4438e3c', 'https://developer.download.nvidia.com/compute/cuda/11.4.0/local_installers/cuda_11.4.0_470.42.01_linux_sbsa.run'),
         'Linux-x86_64': ('d219db30f7415a115a4ea22bdbb5984b0a18f7f891cad6074c5da45d223aaa4b', 'https://developer.download.nvidia.com/compute/cuda/11.4.0/local_installers/cuda_11.4.0_470.42.01_linux.run'),
