@@ -41,7 +41,7 @@ class PyLibclang(PythonPackage):
     depends_on("python@2.7:2.8,3.3:", type=("build", "run"))
     depends_on("py-setuptools", type="build")
 
-    for ver in ["9", "10", "11", "13"]:
+    for ver in ["9", "10", "11", "13", "14"]:
         depends_on("llvm+clang@" + ver, when="@" + ver, type="build")
 
     def patch(self):
