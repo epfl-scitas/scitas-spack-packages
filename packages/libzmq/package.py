@@ -83,7 +83,7 @@ class Libzmq(AutotoolsPackage):
         if 'clang' in self.compiler.cc:
             config_args.append("CFLAGS=-Wno-gnu")
             config_args.append("CXXFLAGS=-Wno-gnu")
-        if self.satisfies('%gcc@12:'):
+        if self.spec.satisfies('%gcc@12:'):
             config_args.append("CFLAGS=-Wno-address")
             config_args.append("CXXFLAGS=-Wno-address")
         return config_args
