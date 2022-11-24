@@ -28,9 +28,9 @@ class Lrslib(Package):
     depends_on("gmp")
     depends_on("libtool", type="build")
 
-    patch("Makefile.spack.patch")
+    patch("Makefile.spack.patch", when='@:7.0')
     # Ref: https://github.com/mkoeppe/lrslib/commit/2e8c5bd6c06430151faea5910f44aa032c4178a9
-    patch("fix-return-value.patch")
+    patch("fix-return-value.patch", when='@:7.0')
 
     def url_for_version(self, version):
         url = "http://cgm.cs.mcgill.ca/~avis/C/lrslib/archive/lrslib-0{0}.tar.gz"
@@ -39,11 +39,21 @@ class Lrslib(Package):
     def install(self, spec, prefix):
         # The Makefile isn't portable; use our own instead
         makeargs = [
-            "-f",
-            "Makefile.spack",
-            "PREFIX=%s" % prefix,
             # "BOOST_PREFIX=%s" % spec["boost"].prefix,
             "GMP_PREFIX=%s" % spec["gmp"].prefix,
         ]
+
+        if spec.satisfies('@:7.0'):
+            makeargs.extend([
+                "-f",
+                "Makefile.spack",
+                "PREFIX=%s" % prefix,
+            ])
+        else:
+            makeargs.extend([
+                'CC={}'.format(spack_cc),
+                'prefix={}'.format(prefix),
+            ])
+            
         make(*makeargs)
         make("install", *makeargs)
