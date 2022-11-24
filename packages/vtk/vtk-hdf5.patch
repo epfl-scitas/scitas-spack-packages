@@ -1,0 +1,24 @@
+diff -Naur a/ThirdParty/xdmf3/vtkxdmf3/core/XdmfHDF5Controller.hpp b/ThirdParty/xdmf3/vtkxdmf3/core/XdmfHDF5Controller.hpp
+--- a/ThirdParty/xdmf3/vtkxdmf3/core/XdmfHDF5Controller.hpp	2021-07-02 17:31:21.000000000 +0200
++++ b/ThirdParty/xdmf3/vtkxdmf3/core/XdmfHDF5Controller.hpp	2022-11-24 19:45:24.160058504 +0100
+@@ -30,7 +30,7 @@
+ 
+ // So that hdf5 does not need to be included in the header files
+ // It would add a dependancy to programs that use Xdmf
+-#ifndef _H5Ipublic_H
++#if !defined(_H5Ipublic_H) and !defined(H5Ipublic_H)
+   #ifndef XDMF_HID_T
+   #define XDMF_HID_T
+     typedef int hid_t;
+diff -Naur a/ThirdParty/xdmf3/vtkxdmf3/core/XdmfHDF5Writer.hpp b/ThirdParty/xdmf3/vtkxdmf3/core/XdmfHDF5Writer.hpp
+--- a/ThirdParty/xdmf3/vtkxdmf3/core/XdmfHDF5Writer.hpp	2021-07-02 17:31:21.000000000 +0200
++++ b/ThirdParty/xdmf3/vtkxdmf3/core/XdmfHDF5Writer.hpp	2022-11-24 19:49:58.488117409 +0100
+@@ -31,7 +31,7 @@
+ 
+ // So that hdf5 does not need to be included in the header files
+ // It would add a dependancy to programs that use Xdmf
+-#ifndef _H5Ipublic_H
++#if !defined(_H5Ipublic_H) and !defined(H5Ipublic_H)
+   #ifndef XDMF_HID_T
+   #define XDMF_HID_T
+     typedef int hid_t;
