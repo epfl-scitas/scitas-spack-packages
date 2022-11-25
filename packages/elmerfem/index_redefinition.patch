@@ -5,8 +5,9 @@ diff -Naur a/fem/src/modules/DCRComplexSolve.F90 b/fem/src/modules/DCRComplexSol
  !------------------------------------------------------------------------------
        LOGICAL :: FirstTime = .TRUE., stat
        REAL(KIND=dp), POINTER :: Hwrk(:,:,:)
+-
 +      INTEGER :: i
-      
++      
        SAVE FirstTime, Hwrk
  !------------------------------------------------------------------------------
        IF ( FirstTime ) THEN
@@ -14,8 +15,9 @@ diff -Naur a/fem/src/modules/DCRComplexSolve.F90 b/fem/src/modules/DCRComplexSol
  !------------------------------------------------------------------------------
        LOGICAL :: FirstTime = .TRUE., stat
        REAL(KIND=dp), POINTER :: Hwrk(:,:,:)
+-
 +      INTEGER :: i
-      
++      
        SAVE FirstTime, Hwrk
  !------------------------------------------------------------------------------
        IF ( FirstTime ) THEN
