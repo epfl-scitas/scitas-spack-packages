@@ -1,0 +1,39 @@
+diff -Naur lrslib-062/lrsnashlib.c ../spack-stage-lrslib-6.2-olzgbl427g6xqhrkphpc3uaw42jwrz5l/spack-src/lrsnashlib.c
+--- lrslib-062/lrsnashlib.c	2016-05-27 11:02:14.000000000 +0200
++++ ../spack-stage-lrslib-6.2-olzgbl427g6xqhrkphpc3uaw42jwrz5l/spack-src/lrsnashlib.c	2022-11-27 19:54:09.583727144 +0100
+@@ -19,6 +19,7 @@
+ #include "lrslib.h"
+ #include "lrsnashlib.h"
+ 
++long FirstTime;
+ 
+ //========================================================================
+ // Standard solver. Modified version of main() from lrsNash
+diff -Naur lrslib-062/lrsnashlib.h ../spack-stage-lrslib-6.2-olzgbl427g6xqhrkphpc3uaw42jwrz5l/spack-src/lrsnashlib.h
+--- lrslib-062/lrsnashlib.h	2016-05-27 11:02:14.000000000 +0200
++++ ../spack-stage-lrslib-6.2-olzgbl427g6xqhrkphpc3uaw42jwrz5l/spack-src/lrsnashlib.h	2022-11-27 19:53:40.355058684 +0100
+@@ -1,4 +1,4 @@
+-/*******************************************************/
++  /*******************************************************/
+ /* lrsnashlib is a library of routines for computing   */
+ /* computing all nash equilibria for two person games  */
+ /* given by mxn payoff matrices A,B                    */
+@@ -15,6 +15,8 @@
+ /*************/
+ /* Games     */
+ /*************/
++#ifndef LRSNASHLIB_H
++#define LRSNASHLIB_H
+ 
+ #define MAXSTRAT 200
+ #define ROW 0
+@@ -65,7 +67,8 @@
+ void updateFwidth(game *g, int col, int pos, char *str);
+ 
+ 
+-long FirstTime;          /* set this to true for every new game to be solved */
++extern long FirstTime;          /* set this to true for every new game to be solved */
+ static long Debug_flag;
+ static long Verbose_flag;
+ 
++#endif /* LRSNASHLIB_H */
