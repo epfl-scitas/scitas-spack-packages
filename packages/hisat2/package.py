@@ -81,32 +81,21 @@ class Hisat2(MakefilePackage):
     @run_after("install")
     def filter_sbang(self):
         with working_dir(self.prefix.bin):
-            pattern = "^#!.*/usr/bin/env python"
+            pattern = "^#!.*/usr/bin/env python3?"
             repl = "#!{0}".format(self.spec["python"].command.path)
             files = [
                 "hisat2-build",
                 "hisat2-inspect",
             ]
+            files.extend(glob.glob("*.py"))
             for file in files:
                 filter_file(pattern, repl, *files, backup=False)
 
-            pattern = "^#!.*/usr/bin/env perl"
+            pattern = "^#!.*/usr/bin/.*perl"
             repl = "#!{0}".format(self.spec["perl"].command.path)
             files = [
                 "hisat2",
             ]
-            for file in files:
-                filter_file(pattern, repl, *files, backup=False)
-
-            pattern = "^#!.*/usr/bin/env python3"
-            repl = "#!{0}".format(self.spec["python"].command.path)
-            files = glob.glob("*.py")
-            for file in files:
-                filter_file(pattern, repl, *files, backup=False)
-
-        with working_dir(self.prefix.scripts):
-            pattern = "^#!.*/usr/bin/perl"
-            repl = "#!{0}".format(self.spec["perl"].command.path)
-            files = glob.glob("*.pl")
+            files.extend(glob.glob("*.pl", recursive=True))
             for file in files:
                 filter_file(pattern, repl, *files, backup=False)
