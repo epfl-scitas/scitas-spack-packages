@@ -15,6 +15,7 @@ class FenicsBasix(CMakePackage):
     maintainers = ["mscroggs", "chrisrichardson", "garth-wells", "jhale"]
 
     version("main", branch="main")
+    version("0.6.0", sha256="687ae53153c98facac4080dcdc7081701db1dcea8c5e7ae3feb72aec17f83304")
     version("0.5.1", sha256="69133476ac35f0bd0deccb480676030378c341d7dfb2adaca22cd16b7e1dc1cb")
     version("0.4.2", sha256="a54f5e442b7cbf3dbb6319c682f9161272557bd7f42e2b8b8ccef88bc1b7a22f")
     version(
@@ -39,7 +40,7 @@ class FenicsBasix(CMakePackage):
 
     depends_on("xtensor@0.23.10:", when="@:0.4")
     depends_on("xtl@0.7.2:", when="@:0.4")
-    depends_on("xtensor-blas@0.19.1:", when="@:0.3")
+    #depends_on("xtensor-blas@0.19.1:", when="@:0.3")
 
     conflicts(
         "%gcc@:9.10", when="@0.5.0:", msg="fenics-basix requires GCC-10 or newer for C++20 support"
