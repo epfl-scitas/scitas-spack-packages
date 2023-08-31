@@ -26,6 +26,7 @@ class Gromacs(CMakePackage):
 
     version('master', branch='master')
     version("2023.2", sha256="bce1480727e4b2bb900413b75d99a3266f3507877da4f5b2d491df798f9fcdae")
+    version("2023", sha256="ac92c6da72fbbcca414fd8a8d979e56ecf17c4c1cdabed2da5cfb4e7277b7ba8")
     version("2022.5", sha256="083cc3c424bb93ffe86c12f952e3e5b4e6c9f6520de5338761f24b75e018c223")
     version('2021.5', sha256='eba63fe6106812f72711ef7f76447b12dd1ee6c81b3d8d4d0e3098cd9ea009b6')
     version('2021.4', sha256='cb708a3e3e83abef5ba475fdb62ef8d42ce8868d68f52dafdb6702dc9742ba1d')
@@ -131,7 +132,7 @@ class Gromacs(CMakePackage):
 
     depends_on('plumed+mpi', when='+plumed+mpi')
     depends_on('plumed~mpi', when='+plumed~mpi')
-    depends_on('plumed@2.9.0:+mpi', when='@2023.2+plumed+mpi')
+    depends_on('plumed@2.9.0:+mpi', when='@2023+plumed+mpi')
     depends_on('plumed@2.8.1+mpi', when='@2022.4+plumed+mpi')
     depends_on('plumed@2.7.3:2.8.0+mpi', when='@2021.4+plumed+mpi')
     depends_on('plumed@2.7.3:2.8.0~mpi', when='@2021.4+plumed~mpi')
