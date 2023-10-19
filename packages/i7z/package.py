@@ -13,7 +13,7 @@ class I7z(Package):
     url      = "https://github.com/afontenot/i7z.git"
 
     version('afontenot', git="https://github.com/afontenot/i7z.git")
-    version('epfl-scitas', git="https://github.com/epfl-scitas/i7z.git", prefered=True)
+    version('epfl-scitas', git="https://github.com/epfl-scitas/i7z.git", preferred=True)
 
     depends_on('ncurses')
 
