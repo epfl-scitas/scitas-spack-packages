@@ -4,7 +4,6 @@
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
 from spack import *
-from os import environ as env
 
 
 class Pigz(MakefilePackage):
@@ -22,7 +21,7 @@ class Pigz(MakefilePackage):
     depends_on('zlib')
 
     def build(self, spec, prefix):
-        make('CC={}'.format(env['SPACK_CC']))
+        make('CC={}'.format(self.compiler.cc))
 
     def install(self, spec, prefix):
         mkdirp(prefix.bin)
