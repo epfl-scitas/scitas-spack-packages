@@ -4,6 +4,7 @@
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
 from spack import *
+from os import environ as env
 
 
 class Mafft(Package):
@@ -22,9 +23,12 @@ class Mafft(Package):
     version('7.221', sha256='0bc78111966d9b00ddfa14fa217fa5bb0c593a558674a13f02dca7bcd51f7fcf')
 
     def install(self, spec, prefix):
-        with working_dir('core'):
-            make('CC={}'.format(self.compiler.cc), 'PREFIX=%s' % prefix)
-            make('CC={}'.format(self.compiler.cc), 'PREFIX=%s' % prefix, 'install')
-        with working_dir('extensions'):
-            make('CC={}'.format(self.compiler.cc), 'PREFIX=%s' % prefix)
-            make('CC={}'.format(self.compiler.cc), 'PREFIX=%s' % prefix, 'install')
+        args = [
+            'CC={}'.format(env['CC']),
+            'PREFIX={}'.format(prefix),
+        ]
+
+        for directory in ['core', 'extensions']:
+            with working_dir(directory):
+                make(*args)
+                make(*args, 'install')
