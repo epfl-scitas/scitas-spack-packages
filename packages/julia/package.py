@@ -168,7 +168,7 @@ class Julia(MakefilePackage):
         "llvm",
         when="^llvm@15.0.2",
         patches=patch(
-            "https://github.com/JuliaLang/llvm-project/compare/4bd3f3759259548e159aeba5c76efb9a0864e6fa...2593167b92dd2d27849e8bc331db2072a9b4bd7f.patch",
+            "julia-1.10_scitas.patch",
             sha256="c9537bf671870a4b762cd1d1c0607edd5b162e98323f6bdbc42510a949ca1a61",
         ),
     )
