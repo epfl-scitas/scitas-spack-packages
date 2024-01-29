@@ -77,7 +77,7 @@ class Julia(MakefilePackage):
         depends_on("mbedtls@2.28.0:2.28")
         depends_on("openlibm@0.8.1:0.8", when="+openlibm")
         depends_on("nghttp2@1.48.0:1.48")
-        depends_on("curl@7.78.0:")
+        depends_on("curl@7.83.0:")
         depends_on("suite-sparse@7.2.0:")
 
     with when("@1.9.0:1.9"):
