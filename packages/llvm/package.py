@@ -105,7 +105,6 @@ class Llvm(CMakePackage, CudaPackage):
     variant(
         "internal_unwind",
         default=True,
-        when="+clang",
         description="Build the libcxxabi libunwind",
     )
     variant(
@@ -267,6 +266,8 @@ class Llvm(CMakePackage, CudaPackage):
     # polly plugin
     depends_on("gmp", when="@:3.6 +polly")
     depends_on("isl", when="@:3.6 +polly")
+
+    conflicts("+internal_unwind", when="~clang")
 
     # Older LLVM do not build with newer compilers, and vice versa
     conflicts("%gcc@8:", when="@:5")
@@ -575,11 +576,6 @@ class Llvm(CMakePackage, CudaPackage):
     root_cmakelists_dir = "llvm"
 
 
-    def patch(self):
-        filter_file(r'            "-lterminfo",',
-                    r'            "-L{}","-lterminfo",'.format(self.spec["ncurses"].prefix.lib),
-                    'utils/bazel/terminfo.bzl')
-    
     def cmake_args(self):
         spec = self.spec
         define = self.define
