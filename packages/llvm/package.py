@@ -652,6 +652,7 @@ class Llvm(CMakePackage, CudaPackage):
 
         if "+lldb" in spec:
             projects.append("lldb")
+            cmake_args.append(define("CMAKE_FIND_USE_CMAKE_SYSTEM_PATH", False))
             cmake_args.append(define("LLDB_ENABLE_LIBEDIT", True))
             cmake_args.append(define("LLDB_ENABLE_CURSES", True))
             if spec["ncurses"].satisfies("+termlib"):
