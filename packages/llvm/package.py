@@ -574,6 +574,12 @@ class Llvm(CMakePackage, CudaPackage):
 
     root_cmakelists_dir = "llvm"
 
+
+    def patch(self):
+        filter_file(r'            "-lterminfo",',
+                    r'            "-L{}","-lterminfo",'.format(self.spec["ncurses"].prefix.lib),
+                    'utils/bazel/terminfo.bzl')
+    
     def cmake_args(self):
         spec = self.spec
         define = self.define
