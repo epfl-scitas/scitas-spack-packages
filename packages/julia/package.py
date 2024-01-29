@@ -74,10 +74,10 @@ class Julia(MakefilePackage):
         depends_on("libgit2@1.6.0:1.6")
         depends_on("libssh2@1.10.0:1.10")
         depends_on("llvm@15.0.2 +lld shlib_symbol_version=JL_LLVM_15.0")
-        #depends_on("mbedtls@3.1.0:3.1.0")
+        depends_on("mbedtls@2.28.2:2.28")
         depends_on("openlibm@0.8.1:0.8", when="+openlibm")
         depends_on("nghttp2@1.48.0:1.48")
-        depends_on("curl@7.83.0: tls=mbedtls")
+        depends_on("curl@7.83.0: tls=openssl")
         depends_on("suite-sparse@7.2.0:")
 
     with when("@1.9.0:1.9"):
