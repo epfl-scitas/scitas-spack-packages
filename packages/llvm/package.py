@@ -105,7 +105,6 @@ class Llvm(CMakePackage, CudaPackage):
     variant(
         "internal_unwind",
         default=True,
-        when="+clang",
         description="Build the libcxxabi libunwind",
     )
     variant(
@@ -267,6 +266,8 @@ class Llvm(CMakePackage, CudaPackage):
     # polly plugin
     depends_on("gmp", when="@:3.6 +polly")
     depends_on("isl", when="@:3.6 +polly")
+
+    conflicts("+internal_unwind", when="~clang")
 
     # Older LLVM do not build with newer compilers, and vice versa
     conflicts("%gcc@8:", when="@:5")
@@ -574,6 +575,7 @@ class Llvm(CMakePackage, CudaPackage):
 
     root_cmakelists_dir = "llvm"
 
+
     def cmake_args(self):
         spec = self.spec
         define = self.define
@@ -646,6 +648,7 @@ class Llvm(CMakePackage, CudaPackage):
 
         if "+lldb" in spec:
             projects.append("lldb")
+            cmake_args.append(define("CMAKE_FIND_USE_CMAKE_SYSTEM_PATH", False))
             cmake_args.append(define("LLDB_ENABLE_LIBEDIT", True))
             cmake_args.append(define("LLDB_ENABLE_CURSES", True))
             if spec["ncurses"].satisfies("+termlib"):
