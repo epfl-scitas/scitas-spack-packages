@@ -1,0 +1,13 @@
+--- a/lib/vtls/mbedtls.c	2022-04-25 09:28:11.000000000 +0200
++++ b/lib/vtls/mbedtls.c	2024-01-29 21:15:26.865572558 +0100
+@@ -815,8 +815,8 @@
+     if(next_protocol) {
+       infof(data, VTLS_INFOF_ALPN_ACCEPTED_1STR, next_protocol);
+ #ifdef USE_HTTP2
+-      if(!strncmp(next_protocol, ALPN_H2, ALPN_H2_LEN) &&
+-         !next_protocol[ALPN_H2_LEN]) {
++      if(!strncmp(next_protocol, ALPN_H2, ALPN_H2_LENGTH) &&
++         !next_protocol[ALPN_H2_LENGTH]) {
+         conn->negnpn = CURL_HTTP_VERSION_2;
+       }
+       else

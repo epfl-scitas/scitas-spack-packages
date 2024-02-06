@@ -15,6 +15,12 @@ class SuiteSparse(Package):
     url = "https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v4.5.3.tar.gz"
     git = "https://github.com/DrTimothyAldenDavis/SuiteSparse.git"
 
+    version('7.2.0', sha256='ce63c34f566d0aeae3c85fdc5b72d293f7e834d10ec0a0417b4c0823ce6c0474')
+    version('7.1.0', sha256='4cd3d161f9aa4f98ec5fa725ee5dc27bca960a3714a707a7d12b3d0abb504679')
+    version('6.0.2', sha256='c5d960cd210279c3c83a27747aca2fdeb2e4a13af42870ca0635739accdc6847')
+    version("5.13.0", sha256="59c6ca2959623f0c69226cf9afb9a018d12a37fab3a8869db5f6d7f83b6b147d")
+    version("5.12.0", sha256="5fb0064a3398111976f30c5908a8c0b40df44c6dd8f0cc4bfa7b9e45d8c647de")
+    version("5.11.0", sha256="fdd957ed06019465f7de73ce931afaf5d40e96e14ae57d91f60868b8c123c4c8")
     version("5.10.1", sha256="acb4d1045f48a237e70294b950153e48dce5b5f9ca8190e86c2b8c54ce00a7ee")
     version("5.10.0", sha256="4bcc974901c0173acf80c41ee0fd779eb7dce2871d4afa24a5d15b1a468f93e5")
     version("5.9.0", sha256="7bdd4811f1cf0767c5fdb5e435817fdadee50b0acdb598f4882ae7b8291a7f24")
@@ -60,6 +66,7 @@ class SuiteSparse(Package):
     depends_on("gmp", when="@5.8.0:")
     depends_on("m4", type="build", when="@5.0.0:")
     depends_on("cmake", when="+graphblas @5.2.0:", type="build")
+    depends_on("cmake", when="@6.0:", type="build")
     depends_on("metis@5.1.0", when="@4.5.1:")
 
     with when("+tbb"):
@@ -221,8 +228,15 @@ class SuiteSparse(Package):
             # Mongoose directory finds libsuitesparseconfig.so in system
             # directories like /usr/lib.
             make_args += [
-                "CMAKE_OPTIONS=-DCMAKE_INSTALL_PREFIX=%s" % prefix
-                + " -DCMAKE_LIBRARY_PATH=%s" % prefix.lib
+                "CMAKE_OPTIONS={}".format(" ".join([
+                    "-DCMAKE_INSTALL_PREFIX={}".format(prefix),
+                    "-DCMAKE_LIBRARY_PATH={}".format(prefix.lib),
+                    "-DCMAKE_INSTALL_LIBDIR={}".format(prefix.lib),
+                    "-DCMAKE_INSTALL_RPATH=\"{};{}\"".format(prefix.lib,
+                                                             ";".join(os.getenv("SPACK_RPATH_DIRS", "").split(":"))),
+                    "-DBLAS_LIBRARIES={}".format(";".join(spec["blas"].libs.libraries)),
+                    "-DLAPACK_LIBRARIES={}".format(";".join(spec["lapack"].libs.libraries)),
+                    ]))
             ]
 
         if spec.satisfies("%gcc platform=darwin"):
@@ -245,16 +259,26 @@ class SuiteSparse(Package):
             "UMFPACK",
             "RBio",
         ]
+
         if spec.satisfies("+cuda"):
             targets.extend(["SuiteSparse_GPURuntime", "GPUQREngine"])
-        targets.extend(["SPQR"])
+
+        targets.append("SPQR")
+
         if spec.satisfies("+graphblas"):
             targets.append("GraphBLAS")
-        if spec.satisfies("@5.8.0:"):
+
+        if spec.satisfies("@5.8.0:6.0.0"):
             targets.append("SLIP_LU")
 
+        if spec.satisfies("@6.0.0:"):
+            targets.append("SPEX")
+
+
         # Finally make and install
-        make("-C", "SuiteSparse_config", "config", *make_args)
+        if spec.satisfies("@:6.0.0"):
+            make("-C", "SuiteSparse_config", "config", *make_args)
+
         for target in targets:
             make("-C", target, "library", *make_args)
             make("-C", target, "install", *make_args)
