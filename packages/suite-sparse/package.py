@@ -230,12 +230,12 @@ class SuiteSparse(Package):
             make_args += [
                 "CMAKE_OPTIONS={}".format(" ".join([
                     "-DCMAKE_INSTALL_PREFIX={}".format(prefix),
-                    "-DCMAKE_LIBRARY_PATH={}".format(prefix.lib),
-                    "-DCMAKE_INSTALL_LIBDIR={}".format(prefix.lib),
+                    "-DCMAKE_LIBRARY_PATH=\"{}\"".format(prefix.lib),
+                    "-DCMAKE_INSTALL_LIBDIR=\"{}\"".format(prefix.lib),
                     "-DCMAKE_INSTALL_RPATH=\"{};{}\"".format(prefix.lib,
                                                              ";".join(os.getenv("SPACK_RPATH_DIRS", "").split(":"))),
-                    "-DBLAS_LIBRARIES={}".format(";".join(spec["blas"].libs.libraries)),
-                    "-DLAPACK_LIBRARIES={}".format(";".join(spec["lapack"].libs.libraries)),
+                    "-DBLAS_LIBRARIES=\"{}\"".format(";".join(spec["blas"].libs.libraries)),
+                    "-DLAPACK_LIBRARIES=\"{}\"".format(";".join(spec["lapack"].libs.libraries)),
                     ]))
             ]
 
