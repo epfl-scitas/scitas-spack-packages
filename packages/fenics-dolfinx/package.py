@@ -73,7 +73,8 @@ class FenicsDolfinx(CMakePackage):
     depends_on("fenics-basix@0.6.0:0.6", when="@0.6.0:0.6")
     depends_on("fenics-basix@0.5.1:0.5", when="@0.5.0:0.5")
     depends_on("fenics-basix@0.4.2", when="@0.4.1")
-
+    depends_on("python", type="build")
+    
     conflicts(
         "%gcc@:9.10",
         when="@0.5.0:",
@@ -97,6 +98,7 @@ class FenicsDolfinx(CMakePackage):
             self.define("DOLFINX_ENABLE_KAHIP", "partitioners=kahip" in self.spec),
             self.define("DOLFINX_ENABLE_PARMETIS", "partitioners=parmetis" in self.spec),
             self.define("DOLFINX_ENABLE_SCOTCH", "partitioners=scotch" in self.spec),
+            self.define("Python3_ROOT_DIR", format(self.spec["python"].prefix)),
             ]
 
         return args
