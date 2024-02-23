@@ -15,7 +15,7 @@ class Rclone(Package):
 
     maintainers = ["alecbcs"]
 
-    license("MIT")
+    #license("MIT")
 
     version("1.65.2", sha256="1305c913ac3684d02ce2bade0a23a2115c1ec03c9447d1562bb6cd9fa2573412")
     version("1.65.1", sha256="904b906cc465dd679a00487497e3891d33fca6b6e25c184400bccfb248344f39")
@@ -42,6 +42,7 @@ class Rclone(Package):
     depends_on("go@1.14:", type="build")
     depends_on("go@1.17:", type="build", when="@1.58.0:")
     depends_on("go@1.18:", type="build", when="@1.62.0:")
+    depends_on("go@1.20:", type="build", when="@1.62.2:")
 
     phases = ["build", "install"]
 
