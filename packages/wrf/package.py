@@ -70,27 +70,59 @@ class Wrf(Package):
     url         = "https://github.com/wrf-model/WRF/archive/v4.2.tar.gz"
     maintainers = ["MichaelLaufer", "ptooley"]
 
-    version("4.5", sha256='14fd78abd4e32c1d99e2e97df0370030a5c58ec84c343591bdc5e74f163c5525')
-    version("4.3.3", sha256='1b98b8673513f95716c7fc54e950dfebdb582516e22758cd94bc442bccfc0b86')
-    version("4.3.2", sha256='2c682da0cd0fd13f57d5125eef331f9871ec6a43d860d13b0c94a07fa64348ec')
-    version("4.3.1", sha256='6c9a69d05ee17d2c80b3699da173cfe6fdf65487db7587c8cc96bfa9ceafce87')
+    version(
+        "4.5.2",
+        sha256="408ba6aa60d9cd51d6bad2fa075a3d37000eb581b5d124162885b049c892bbdc",
+        url="https://github.com/wrf-model/WRF/releases/download/v4.5.2/v4.5.2.tar.gz",
+    )
+    version(
+        "4.5.1",
+        sha256="9d557c34c105db4d41e727843ecb19199233c7cf82c5369b34a2ce8efe65e2d1",
+        url="https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz",
+    )
+    version(
+        "4.5.0",
+        sha256="14fd78abd4e32c1d99e2e97df0370030a5c58ec84c343591bdc5e74f163c5525",
+        url="https://github.com/wrf-model/WRF/releases/download/v4.5/v4.5.tar.gz",
+    )
+    version(
+        "4.4.2",
+        sha256="488b992e8e994637c58e3c69e869ad05acfe79419c01fbef6ade1f624e50dc3a",
+        url="https://github.com/wrf-model/WRF/releases/download/v4.4.2/v4.4.2.tar.gz",
+    )
+    version(
+        "4.4",
+        sha256="6b649e5ac5532f74d74ab913950b632777ce349d26ebfb7f0042b80f9f4ee83e",
+        url="https://github.com/wrf-model/WRF/releases/download/v4.4/v4.4.tar.gz",
+    )
+    version("4.3.3", sha256="1b98b8673513f95716c7fc54e950dfebdb582516e22758cd94bc442bccfc0b86")
+    version("4.3.2", sha256="2c682da0cd0fd13f57d5125eef331f9871ec6a43d860d13b0c94a07fa64348ec")
+    version("4.3.1", sha256="6c9a69d05ee17d2c80b3699da173cfe6fdf65487db7587c8cc96bfa9ceafce87")
+    version("4.2.2", sha256="7be2968c67c2175cd40b57118d9732eda5fdb0828edaa25baf57cc289da1a9b8")
     version("4.2", sha256="c39a1464fd5c439134bbd39be632f7ce1afd9a82ad726737e37228c6a3d74706")
     version("4.0", sha256="9718f26ee48e6c348d8e28b8bc5e8ff20eafee151334b3959a11b7320999cf65")
-    version("3.9.1.1", sha256="a04f5c425bedd262413ec88192a0f0896572cc38549de85ca120863c43df047a", url="https://github.com/wrf-model/WRF/archive/V3.9.1.1.tar.gz")
+    version(
+        "3.9.1.1",
+        sha256="a04f5c425bedd262413ec88192a0f0896572cc38549de85ca120863c43df047a",
+        url="https://github.com/wrf-model/WRF/archive/V3.9.1.1.tar.gz",
+    )
 
     variant(
         "build_type",
         default="dmpar",
+        description="Build type",
         values=("serial", "smpar", "dmpar", "dm+sm"),
     )
     variant(
         "nesting",
         default="basic",
+        description="Nesting",
         values=("no_nesting", "basic", "preset_moves", "vortex_following"),
     )
     variant(
         "compile_type",
         default="em_real",
+        description="Compile type",
         values=(
             "em_real",
             "em_quarter_ss",
@@ -133,7 +165,7 @@ class Wrf(Package):
     patch("patches/4.0/tirpc_detect.patch", when="@4.0")
     patch("patches/4.0/add_aarch64.patch", when="@4.0")
 
-    patch("patches/4.2/arch.Config.pl.patch", when="@4.2:")
+    patch("patches/4.2/arch.Config.pl.patch", when="@4.2:4.5.1")
     patch("patches/4.2/arch.configure.defaults.patch", when="@4.2")
     patch("patches/4.2/arch.conf_tokens.patch", when="@4.2:")
     patch("patches/4.2/arch.postamble.patch", when="@4.2")
@@ -147,12 +179,13 @@ class Wrf(Package):
     patch("patches/4.2/configure_aocc_3.0.patch", when="@4.2: %aocc@3.0.0:3.2.0")
     patch("patches/4.2/hdf5_fix.patch", when="@4.2: %aocc")
     patch("patches/4.2/derf_fix.patch", when="@4.2 %aocc")
+
     # Various syntax fixes found by FPT tool
     patch("https://github.com/wrf-model/WRF/commit/6502d5d9c15f5f9a652dec244cc12434af737c3c.patch?full_index=1",
           sha256="c5162c23a132b377132924f8f1545313861c6cee5a627e9ebbdcf7b7b9d5726f", when="@4.2 %fj")
     patch("patches/4.2/configure_fujitsu.patch", when="@4 %fj")
 
-    patch("patches/4.3/Makefile.patch", when="@4.3:")
+    patch("patches/4.3/Makefile.patch", when="@4.3:4.5.1")
     patch("patches/4.3/arch.postamble.patch", when="@4.3:4.3")
     patch("patches/4.3/fujitsu.patch", when="@4.3: %fj")
     # Syntax errors in physics routines
@@ -162,7 +195,7 @@ class Wrf(Package):
           sha256="27c7268f6c84b884d21e4afad0bab8554b06961cf4d6bfd7d0f5a457dcfdffb1", when="@4.3.1")
 
     patch("patches/4.5/configure.patch", when="@4.5:")
-    patch("patches/4.5/arch.postamble.patch", when="@4.5:")
+    patch("patches/4.5/arch.postamble.patch", when="@4.5:4.5.1")
 
     depends_on("pkgconfig", type=("build"))
     depends_on("libtirpc")
@@ -223,7 +256,6 @@ class Wrf(Package):
         filter_file("^#!/bin/csh", "#!/usr/bin/env csh", *files)
 
     def answer_configure_question(self, outputbuf):
-
         # Platform options question:
         if "Please select from among the following" in outputbuf:
             options = collect_platform_options(outputbuf)
@@ -355,7 +387,7 @@ class Wrf(Package):
         csh = Executable(csh_bin)
 
         # num of compile jobs capped at 20 in wrf
-        num_jobs = str(min(int(make_jobs), 10))
+        num_jobs = str(min(int(make_jobs), 20))
 
         # Now run the compile script and track the output to check for
         # failure/success We need to do this because upstream use `make -i -k`
@@ -377,7 +409,6 @@ class Wrf(Package):
         return False
 
     def build(self, spec, prefix):
-
         result = self.run_compile_script()
 
         if not result:

@@ -1,0 +1,44 @@
+diff -u a/ungrib/src/ngl/g2/dec_jpeg2000.c b/ungrib/src/ngl/g2/dec_jpeg2000.c
+--- a/ungrib/src/ngl/g2/dec_jpeg2000.c
++++ b/ungrib/src/ngl/g2/dec_jpeg2000.c
+@@ -61,7 +61,7 @@
+ 
+ {
+ #ifdef USE_JPEG2000
+-    int ier;
++    int ier,fmt;
+     g2int i,j,k,n;
+     jas_image_t *image=0;
+     jas_stream_t *jpcstream,*istream;
+@@ -80,7 +80,8 @@
+ /*   
+  *     Decode JPEG200 codestream into jas_image_t structure.
+  */      
+-    image=jpc_decode(jpcstream,opts);
++    fmt=jas_image_getfmt(jpcstream);
++    image=jas_image_decode(jpcstream,fmt,opts);
+     if ( image == 0 ) {
+        printf(" jpc_decode return = %d \n",ier);
+        return -3;
+diff -u a/ungrib/src/ngl/g2/enc_jpeg2000.c b/ungrib/src/ngl/g2/enc_jpeg2000.c
+--- a/ungrib/src/ngl/g2/enc_jpeg2000.c
++++ b/ungrib/src/ngl/g2/enc_jpeg2000.c
+@@ -82,7 +82,7 @@
+ {
+     int rwcnt = 0;
+ #ifdef USE_JPEG2000
+-    int ier ;
++    int ier,fmt;
+     jas_image_t image;
+     jas_stream_t *jpcstream,*istream;
+     jas_image_cmpt_t cmpt,*pcmpt;
+@@ -178,7 +178,8 @@
+ /*
+  *     Encode image.
+  */
+-    ier=jpc_encode(&image,jpcstream,opts);
++    fmt=jas_image_getfmt(jpcstream);
++    ier=jas_image_encode(&image,jpcstream,fmt,opts);
+     if ( ier != 0 ) {
+        printf(" jpc_encode return = %d \n",ier);
+        return -3;
